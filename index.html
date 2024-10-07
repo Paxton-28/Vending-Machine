@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompanyName</title>
+    <script src="https://kit.fontawesome.com/c955f5f7bd.js" crossorigin="anonymous"></script>
+    <style>
+        :root{
+            --black: #000000;
+            --white: #FFFFFF;
+            }
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .Top{
+            height: 5rem;
+            background-color: var(--black);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #FFFFFF;
+            box-shadow: 2px 2px 5px grey;
+        }
+        .Top h1{
+            font-size: 1.2rem;
+            padding-left: 0.5rem;
+        }
+        .day-date-time{
+            height: 50%;
+            width: 25%;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            padding-right: 0.5rem;
+        }
+        .day-date{
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .menu{
+            width: 95%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin-right: 1rem;
+        }
+        .row{
+            width: 100%;
+            padding-left: 1rem;
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+        }
+
+        .items{
+            min-width: 8rem;
+            height: 8rem;
+            background-color: var(--black);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            color: var(--white);
+            border-radius: 0.5rem;
+            box-shadow: 2px 2px 5px grey;
+        }
+        .position{
+            font-size: 1.2rem;
+        }
+        .editor{
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .editor button{
+            width: 1.5rem;
+            height: 1.5rem;
+            background-color: #000000;
+            color: #FFFFFF;
+            border-radius: 50%;
+            border: 1px solid black;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .editor button:active{
+            background-color: #FFFFFF;
+            color: #000000;
+        }
+        .row::-webkit-scrollbar{
+            display: none;
+        }
+
+        .bottom{
+            height: 8rem;
+            width: 100%;
+            background-color: var(--black);
+            position: sticky;
+            bottom: 0px;
+            left: 0px;
+            color: #FFFFFF;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .order-details{
+            height: 50%;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--white);
+            box-shadow: 0px -2px 5px grey;
+
+        }
+        #total{
+            display: flex;
+            justify-content: center;}
+        .help{
+            display: flex;
+            justify-content: space-between;
+            height: 50%;
+            padding: 1rem;
+        }
+        .bottom button{
+            width: 45%;
+            background-color: var(--black);
+            color: #FFFFFF;
+            border: none;
+            font-size: 1rem;
+        }
+        #total,#guide{
+            width: 45%;
+            font-size: 1.1rem;
+        }
+        #total{
+            gap: 1rem;
+            align-items: center;
+        }
+        #guide{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #cg-button{
+            width: 100%;
+        }
+        #cart,#pay{
+            border: 1px solid #FFFFFF;
+            border-radius: 0.5rem;
+        }
+
+        #cart .hide{
+                visibility: hidden;
+                width: 40%;
+                height: auto;
+                background-color: var(--black);
+                color: #ffffff;
+                text-align: center;
+                border-radius: 5px;
+                padding: 1rem;
+                position: absolute;
+                z-index: 1;
+                bottom: 100%;
+                left: 25%;
+                margin-left: -80px;
+        }
+        #cart .show{
+            visibility: visible;
+        }
+        #cart-items{
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            color: #FFFFFF;
+        }
+        #cart-items p{
+            display: none;
+        }
+        #overlay {
+            position: fixed;
+            display: none;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2;
+            cursor: pointer;
+        }
+
+        #text{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 50%;
+            left: 50%;
+            font-size: 50px;
+            color: white;
+            -ms-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+        #text p{
+            font-size: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <section class="Top">
+        <h1 id="companyname">CompanyName</h1>
+        <div class="day-date-time">
+            <p id="ddt"></p>
+        </div>
+    </section>
+
+    <div class="menu">
+        <div class="row" id="row1">
+            <div class="items" id="1">
+                <p class="position" id="A-1">A-1</p>
+                <div class="editor">
+                    <button class="subtract">-</button>
+                    <p class="price">10</p>
+                    <button class="add">+</button>
+                </div>
+            </div>
+            <div class="items" id="2">
+                <p class="position" id="A-2">A-2</p>
+                <div class="editor">
+                    <button class="subtract">-</button>
+                    <p class="price">10</p>
+                    <button class="add">+</button>
+                </div>
+            </div>
+            <div class="items" id="3">
+                <p class="position" id="A-3">A-3</p>
+                <div class="editor">
+                    <button class="subtract">-</button>
+                    <p class="price">20</p>
+                    <button class="add">+</button>
+                </div>
+            </div>
+            <div class="items" id="4">
+                <p class="position" id="A-4">A-4</p>
+                <div class="editor">
+                    <button class="subtract">-</button>
+                    <p class="price">20</p>
+                    <button class="add">+</button>
+                </div>
+            </div>
+            <div class="items" id="5">
+                <p class="position" id="A-5">A-5</p>
+                <div class="editor">
+                    <button class="subtract">-</button>
+                    <p class="price">10</p>
+                    <button class="add">+</button>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="row2">
+            <div class="items" id="6">
+                <p class="position" id="B-1">B-1</p>
+                <div class="editor">
+                    <button class="subtract">-</button>
+                    <p class="price">10</p>
+                    <button class="add">+</button>
+                </div>
+            </div>
+            <div class="items" id="7">
+                <p class="position" id="B-2">B-2</p>
+                <div class="editor">
+                    <button class="subtract">-</button>
+                    <p class="price">20</p>
+                    <button class="add">+</button>
+                </div>
+            </div>
+            <div class="items" id="8">
+                <p class="position" id="B-3">B-3</p>
+                <div class="editor">
+                    <button class="subtract">-</button>
+                    <p class="price">20</p>
+                    <button class="add">+</button>
+                </div>
+            </div>
+            <div class="items" id="9">
+                <p class="position"  id="B-4">B-4</p>
+                <div class="editor">
+                    <button class="subtract">-</button>
+                    <p class="price">40</p>
+                    <button class="add">+</button>
+                </div>
+            </div>
+            <div class="items" id="10">
+                <p class="position" id="B-5">B-5</p>
+                <div class="editor">
+                    <button class="subtract">-</button>
+                    <p class="price">30</p>
+                    <button class="add">+</button>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="row3">
+            <div class="items" id="11">
+                <p class="position" id="C-1">C-1</p>
+                <div class="editor">
+                    <button class="subtract">-</button>
+                    <p class="price">10</p>
+                    <button class="add">+</button>
+                </div>
+            </div>
+            <div class="items" id="12">
+                <p class="position" id="C-2">C-2</p>
+                <div class="editor">
+                    <button class="subtract">-</button>
+                    <p class="price">10</p>
+                    <button class="add">+</button>
+                </div>
+            </div>
+            <div class="items" id="13">
+                <p class="position" id="C-3">C-3</p>
+                <div class="editor">
+                    <button class="subtract">-</button>
+                    <p class="price">20</p>
+                    <button class="add">+</button>
+                </div>
+            </div>
+            <div class="items" id="14">
+                <p class="position" id="C-4">C-4</p>
+                <div class="editor">
+                    <button class="subtract">-</button>
+                    <p class="price">20</p>
+                    <button class="add">+</button>
+                </div>
+            </div>
+            <div class="items" id="15">
+                <p class="position" id="C-5">C-5</p>
+                <div class="editor">
+                    <button class="subtract">-</button>
+                    <p class="price">20</p>
+                    <button class="add">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="bottom">
+        <div class="order-details">
+            <button id="cart" class="fa-solid fa-cart-shopping" title="cart-icon" onclick="myFunction()">
+                <div class="hide" id="cart-items">
+                    <p class="1"></p>
+                    <p class="2"></p>
+                    <p class="3"></p>
+                    <p class="4"></p>
+                    <p class="5"></p>
+                    <p class="6"></p>
+                    <p class="7"></p>
+                    <p class="8"></p>
+                    <p class="9"></p>
+                    <p class="10"></p>
+                    <p class="11"></p>
+                    <p class="12"></p>
+                    <p class="13"></p>
+                    <p class="14"></p>
+                    <p class="15"></p>
+                </div>
+            </button>
+            <div id="total-div">
+                <span>Total : </span><p id="amt">Amount</p>
+            </div>
+        </div>
+        <div class="help">
+            <div id="guide">
+                <button id="cg-button" onclick="on()">Customer Guide</button>
+                <div id="overlay" onclick="off()">
+                    <div id="text">
+                        <p>1. Scroll through the rows to see the items.</p>
+                        <p>2. Click on the '+' to add a product. Click again to increase the quantity by 1 each time.</p>
+                        <p>3. Click on the '-' to add a product. Click again to decrease the quantity by 1 each time.</p>
+                        <p>4. Click on the 'cart' icon to see your list of selected items.</p>
+                        <p>5. Click on the 'Proceed to Payment' button to pay for your items.</p>
+                        <p>6. Wait for a while and collect your items from the dropbox below.</p>
+                    </div>
+                  </div>
+            </div>
+            <button id="pay">Proceed to Payment</button>
+        </div>
+    </section>
+
+    <script>
+        let ddt=document.querySelector("#ddt");
+        const day_array=['Sun','Mon','Tues','Wed','Thu','Fri','Sat'];
+        ddt.textContent=setInterval(function(){
+            let d1=new Date();
+            ddt.textContent=d1.toDateString();
+        },1000)
+
+        let total=document.querySelector("#amt");
+        let plus=document.querySelectorAll(".add");
+        let minus=document.querySelectorAll(".subtract");
+        let pr=document.querySelectorAll(".price");
+        let ci=document.querySelector("#cart-items");
+        let t=0;
+        let count_arr=['0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'];
+
+        plus.forEach((add)=>{
+            add.addEventListener('click',function(e){
+                let p=e.target.parentElement;
+                let p1=e.target.parentElement.parentElement.id;
+                let ch1=e.target.parentElement.parentElement.children[0].id;
+                count_arr[p1]++;
+                if(count_arr[p1]<=10){
+                t=t+parseInt(p.children[1].textContent);
+                total.textContent=t;
+                ci.children[p1].textContent=ch1+":\t"+count_arr[p1];
+                ci.children[p1].style.display="block";
+                }
+
+            })
+        })
+
+        minus.forEach((subtract)=>{
+            subtract.addEventListener('click',function(e){
+                let p=e.target.parentElement;
+                let p2=e.target.parentElement.parentElement.id;
+                let ch1=e.target.parentElement.parentElement.children[0].id;
+                    count_arr[p2]--;
+                    if(count_arr[p2]>0){
+                    t=t-parseInt(p.children[1].textContent);
+                    total.textContent=t;
+                    ci.children[p2].textContent=ch1+":\t"+count_arr[p2];
+                    ci.children[p2].style.display="block";
+                    }
+                    else if(count_arr[p2]==0){
+                        t=t-parseInt(p.children[1].textContent);
+                        total.textContent=t;
+                        ci.children[p2].style.display="none";
+                    }
+                    else{
+                        count_arr[p2]=0;
+                    }
+            })
+        })
+
+        function myFunction() {
+            let popup = document.getElementById("cart-items");
+            popup.classList.toggle("show");
+        }
+        function on() {
+            document.getElementById("overlay").style.display = "block";
+        }
+
+        function off() {
+            document.getElementById("overlay").style.display = "none";
+        }
+    </script>
+</body>
+</html>
